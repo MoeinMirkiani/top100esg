@@ -1,6 +1,6 @@
 <template>
     <div>
-        <UButton>Button</UButton>
+        <UButton>{{ $t('Button') }}</UButton>
     </div>
 </template>
 
