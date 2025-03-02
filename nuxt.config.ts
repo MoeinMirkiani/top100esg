@@ -1,9 +1,21 @@
 export default defineNuxtConfig({
     compatibilityDate: '2024-11-01',
 
-    modules: [
-        '@nuxt/ui',
-        '@nuxtjs/i18n'
+    app: {
+        head: {
+            link: [
+                {
+                    rel: 'stylesheet',
+                    href: 'https://fonts.googleapis.com/css2?family=Sometype+Mono:ital,wght@0,400..700;1,400..700&display=swap'
+                }
+            ]
+        }
+    },
+
+    modules: ['@nuxt/ui', '@nuxtjs/i18n', 'nuxt-svgo'],
+
+    css: [
+        '~/assets/styles/main.scss'
     ],
 
     i18n: {

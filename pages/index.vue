@@ -1,6 +1,6 @@
 <template>
     <div>
-        <UButton>{{ $t('Button') }}</UButton>
+        <UButton>{{ t('Button') }}</UButton>
     </div>
 </template>
 
@@ -9,7 +9,9 @@ definePageMeta({
     layout: 'filters'
 })
 
+const { t } = useI18n()
+
 useHead({
-    title: 'Rankings'
+    title: t('Rankings')
 })
 </script>
