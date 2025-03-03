@@ -46,11 +46,9 @@ const navItems: NavItem[] = [
 
 <style lang="scss" scoped>
 nav {
-    a {
-        &.router-link-active {
-            .indicator {
-                @apply bg-black;
-            }
+    a.router-link-active {
+        .indicator {
+            @apply bg-black;
         }
     }
 }

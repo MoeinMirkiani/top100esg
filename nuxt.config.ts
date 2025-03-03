@@ -18,6 +18,10 @@ export default defineNuxtConfig({
         '~/assets/styles/main.scss'
     ],
 
+    colorMode: {
+        preference: 'light',
+    },
+
     i18n: {
         locales: [
             {
