@@ -12,7 +12,12 @@ export default defineNuxtConfig({
         }
     },
 
-    modules: ['@nuxt/ui', '@nuxtjs/i18n', 'nuxt-svgo'],
+    modules: [
+        '@nuxt/ui',
+        '@nuxtjs/i18n',
+        'nuxt-svgo',
+        '@pinia/nuxt'
+    ],
 
     css: [
         '~/assets/styles/main.scss'

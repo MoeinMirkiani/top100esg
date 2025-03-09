@@ -22,7 +22,7 @@
             <BurgerIcon filled :font-controlled="false" class="h-6 w-6 md:hidden" />
         </div>
 
-        <LanguageSwitch class="hidden md:block" />
+        <LanguageSwitch class="hidden md:flex" />
     </header>
 </template>
 

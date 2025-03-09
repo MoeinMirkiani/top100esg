@@ -1,12 +1,11 @@
 <template>
     <UFormGroup :label="props.label">
         <USelect
-            :options="props.options.map((option): { label: string, value: string } => ({ ...option, label: t(option.label) }))"
+            :options="props.options.map((option): { label: string, value: string } => ({ label: t(option), value: option }))"
             v-model="model"
             variant="none"
             class="border-none"
             select-class="bg-white p-4"
-            @change="() => $emit('update:modelValue', model)"
         />
     </UFormGroup>
 </template>
@@ -16,11 +15,9 @@ const { t } = useI18n()
 
 interface Props {
     label: string
-    options: { label: string, value: string }[]
+    options: string[]
 }
 
 const props = defineProps<Props>()
-const model = defineModel<{ label: string, value: string } | undefined>()
-
-const translateOptions = computed(() => props.options.map(option => t(option.label)))
+const model = defineModel<string | undefined>()
 </script>

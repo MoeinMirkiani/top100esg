@@ -1,18 +1,55 @@
 <template>
     <div class="space-y-4">
-        <AppSelect label="Section" :options="sections" v-model="section" />
+        <span v-if="loading">{{ t('Loading filters...') }}</span>
+        <template v-else>
+            <AppSelect :label="t('Section')" :options="sections" v-model="section" />
+            <AppSelect :label="t('Variable')" :options="variables" v-model="variable" />
+            <AppSelect :label="t('Year')" :options="years" v-model="year" />
+        </template>
     </div>
 </template>
 
 <script setup lang="ts">
 const { t } = useI18n()
 
-const sections = ref<{ label: string, value: string }[]>([
-    { label: t('Financial'), value: 'Financial' },
-    { label: t('Environmental'), value: 'Environmental' },
-    { label: t('Social'), value: 'Social' },
-    { label: t('Governance'), value: 'Governance' }
-])
+import companiesDB from '~/db.json'
+const { data } = companiesDB
+const { filters, companies } = useTransform(data.companies.nodes)
 
-const section = ref<{ label: string, value: string }>(sections.value[0])
+// Section filter
+const sections = computed<string[]>(() => {
+    return filters.sections.map(s => s.section)
+})
+
+const section = ref<string>(sections.value[0])
+
+// Variable filter
+const variables = computed<string[]>(() => {
+    return filters.sections.find(s => s.section === section.value)?.variables ?? []
+})
+
+const variable = ref<string>(variables.value[0])
+watch(section, () => {
+    variable.value = variables.value[0] ?? ''
+})
+
+// // Year filter
+const years = computed<string[]>(() => {
+    return filters.years.map(y => y.toString())
+})
+
+const year = ref<string>(years.value[0])
+
+const loading = computed<boolean>(() => {
+    return sections.value.length === 0 || variables.value.length === 0 || years.value.length === 0
+})
+
+const { setFilter } = useFilterStore()
+watch([section, variable, year], () => {
+    setFilter({
+        section: section.value,
+        variable: variable.value,
+        year: parseInt(year.value)
+    })
+})
 </script>
