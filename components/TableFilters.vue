@@ -10,11 +10,16 @@
 </template>
 
 <script setup lang="ts">
+import { useCompanyStore } from "~/stores/useCompanyStore"
+
 const { t } = useI18n()
 
 import companiesDB from '~/db.json'
 const { data } = companiesDB
 const { filters, companies } = useTransform(data.companies.nodes)
+
+const { setCompanies } = useCompanyStore()
+setCompanies(companies)
 
 // Section filter
 const sections = computed<string[]>(() => {
@@ -51,5 +56,11 @@ watch([section, variable, year], () => {
         variable: variable.value,
         year: parseInt(year.value)
     })
+})
+
+setFilter({
+    section: section.value,
+    variable: variable.value,
+    year: parseInt(year.value)
 })
 </script>
