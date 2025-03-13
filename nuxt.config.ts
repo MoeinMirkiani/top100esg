@@ -1,6 +1,12 @@
 export default defineNuxtConfig({
     compatibilityDate: '2024-11-01',
 
+    runtimeConfig: {
+        public: {
+            graphqlURL: process.env.GRAPHQL
+        }
+    },
+
     app: {
         head: {
             link: [

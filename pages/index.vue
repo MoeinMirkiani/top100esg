@@ -1,24 +1,40 @@
 <template>
-    <UTable :columns :rows="companies" :sort="sort">
-        <template #title-header>
-            <span></span>
-        </template>
+    <ClientOnly>
+        <UTable :columns :rows="companies" :sort="sort" @select="selectCompany">
+            <template #rank-header>
+                <span></span>
+            </template>
 
-        <template #value-header>
-            <span></span>
-        </template>
-    </UTable>
+            <template #rank-data="{ row, index }">
+                <span>{{ row.rank ?? (index + 1) }}</span>
+            </template>
+
+            <template #title-header>
+                <span></span>
+            </template>
+
+            <template #value-header>
+                <span></span>
+            </template>
+        </UTable>
+    </ClientOnly>
 </template>
 
 <script lang="ts" setup>
 import type { Company } from "~/types"
 
 interface TableCompany {
+    rank: number | null
     title: string
     value: string
+    id: string
 }
 
 const columns = [
+    {
+        key: 'rank',
+        label: 'Rank',
+    },
     {
         key: 'title',
         label: 'Title',
@@ -29,8 +45,8 @@ const columns = [
     }
 ]
 
-const sort = ref({
-    column: 'name',
+const sort = ref<{ column: string, direction: 'asc' | 'desc' }>({
+    column: 'rank',
     direction: 'asc'
 })
 
@@ -67,12 +83,18 @@ function mapCompanyToTableCompany(company: Company): TableCompany | null {
     const variable = section.variables.find(v => v.variable === activeFilter.value?.variable)
     if (!variable) return null
 
-    // Return the TableCompany object with the title and the found value
+    // Return the TableCompany object with the rank, title, value, and id
     return {
+        rank: variable.rank ?? null,
         title: company.title,
-        value: variable.value
+        value: variable.value,
+        id: company.id
     }
 }
 
 companies.value = allCompanies?.map(c => mapCompanyToTableCompany(c)).filter(c => c !== null) as TableCompany[]
+
+const selectCompany = (row: TableCompany) => {
+    console.log(row.id)
+}
 </script>

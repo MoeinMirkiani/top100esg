@@ -1,17 +1,21 @@
+import { type AsyncData as NuxtAsyncData } from "#app"
+import { FetchError } from "ofetch"
+
 export interface CompanyResponse {
     title: string
     id: string
     companyAcf: {
-        consolidatedFinancialStatements: string
         fiscalYearEnd: string
         headquartersLocation: string
-        sustainabilityReport: string
         rankings: {
             year: number
+            consolidatedFinancialStatements: string
+            sustainabilityReport: string
             sectionsVariables: {
                 section: string[]
                 variable: string[]
                 value: string
+                rank: number | null
             }[]
         }[]
     }
@@ -36,17 +40,18 @@ export interface CompaniesResponse {
 export interface Company {
     title: string
     id: string
-    consolidatedFinancialStatements: string
     fiscalYearEnd: string
     headquartersLocation: string
-    sustainabilityReport: string
     rankings: {
         year: number
+        consolidatedFinancialStatements: string
+        sustainabilityReport: string
         sections: {
             section: string
             variables: {
                 variable: string
                 value: string
+                rank: number | null
             }[]
         }[]
     }[]
@@ -64,4 +69,11 @@ export interface ActiveFilter {
     year: number
     section: string
     variable: string
+}
+
+export type AsyncData<T> = Promise<NuxtAsyncData<T, FetchError | null>>
+
+export type NavigateToData = {
+    path: string,
+    statusCode: number
 }

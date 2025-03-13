@@ -1,62 +1,52 @@
-import type { CompanyResponse, Company, Filters } from "~/types"
+import type { CompanyResponse, Company, Filters } from '~/types'
 
 export const useTransform = (companyResponses: CompanyResponse[]): { companies: Company[], filters: Filters } => {
-    const filters: Filters = {
-        years: [],
-        sections: []
-    }
-
-    const companies = companyResponses.map(companyResponse => {
+    const companies: Company[] = companyResponses.map(companyResponse => {
         const { companyAcf, ...rest } = companyResponse
 
-        // Group sectionsVariables by section
-        const groupedRankings = companyAcf.rankings.map(ranking => {
-            const sectionsMap = new Map<string, { section: string, variables: { variable: string, value: string }[] }>()
+        // Transform rankings
+        const rankings = companyAcf.rankings.map(ranking => {
+            const { sectionsVariables, ...rankingRest } = ranking
 
-            ranking.sectionsVariables.forEach(sv => {
-                const sectionKey = sv.section[0] // Since section is always a single string in an array
+            // Group variables by section
+            const sectionsMap = new Map<string, { variable: string, value: string, rank: number | null }[]>()
+            sectionsVariables.forEach(({ section, variable, value, rank }) => {
+                const sectionKey = section[0] // Since section is always a single string array
                 if (!sectionsMap.has(sectionKey)) {
-                    sectionsMap.set(sectionKey, { section: sectionKey, variables: [] })
+                    sectionsMap.set(sectionKey, [])
                 }
-                sectionsMap.get(sectionKey)!.variables.push({
-                    variable: sv.variable[0], // Since variable is always a single string in an array
-                    value: sv.value
-                })
-
-                // Collect unique variables for filters
-                const sectionFilter = filters.sections.find(s => s.section === sectionKey)
-                if (!sectionFilter) {
-                    filters.sections.push({
-                        section: sectionKey,
-                        variables: [sv.variable[0]]
-                    })
-                } else if (!sectionFilter.variables.includes(sv.variable[0])) {
-                    sectionFilter.variables.push(sv.variable[0])
-                }
+                sectionsMap.get(sectionKey)!.push({ variable: variable[0], value, rank })
             })
 
-            return {
-                year: ranking.year,
-                sections: Array.from(sectionsMap.values())
-            }
-        })
+            // Convert the map to the desired sections format
+            const sections = Array.from(sectionsMap.entries()).map(([section, variables]) => ({
+                section,
+                variables,
+            }))
 
-        // Collect unique years for filters
-        companyAcf.rankings.forEach(ranking => {
-            if (!filters.years.includes(ranking.year)) {
-                filters.years.push(ranking.year)
+            return {
+                ...rankingRest,
+                sections,
             }
         })
 
         return {
             ...rest,
-            consolidatedFinancialStatements: companyAcf.consolidatedFinancialStatements,
             fiscalYearEnd: companyAcf.fiscalYearEnd,
             headquartersLocation: companyAcf.headquartersLocation,
-            sustainabilityReport: companyAcf.sustainabilityReport,
-            rankings: groupedRankings
+            rankings,
         }
     })
+
+    // Generate filters
+    const filters: Filters = {
+        years: Array.from(new Set(companyResponses.flatMap(company => company.companyAcf.rankings.map(ranking => ranking.year)))),
+        sections: Array.from(new Set(companyResponses.flatMap(company => company.companyAcf.rankings.flatMap(ranking => ranking.sectionsVariables.map(variable => variable.section[0])))))
+            .map(section => ({
+                section,
+                variables: Array.from(new Set(companyResponses.flatMap(company => company.companyAcf.rankings.flatMap(ranking => ranking.sectionsVariables.filter(variable => variable.section[0] === section).map(variable => variable.variable[0])))))
+            }))
+    }
 
     return { companies, filters }
 }

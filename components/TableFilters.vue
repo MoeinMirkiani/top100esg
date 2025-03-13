@@ -11,12 +11,15 @@
 
 <script setup lang="ts">
 import { useCompanyStore } from "~/stores/useCompanyStore"
+import CompanyService from "~/services/CompanyService"
 
 const { t } = useI18n()
 
-import companiesDB from '~/db.json'
-const { data } = companiesDB
-const { filters, companies } = useTransform(data.companies.nodes)
+const { data: apiData } = await CompanyService.list(100, '')
+const { companies, filters } = useTransform(apiData.value.data.companies.nodes)
+
+// import companiesDB from '~/db.json'
+// const { data } = companiesDB
 
 const { setCompanies } = useCompanyStore()
 setCompanies(companies)
