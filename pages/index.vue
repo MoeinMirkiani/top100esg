@@ -27,6 +27,10 @@
             <TableFilters @close="filtersMenuIsOpen = false" />
         </div>
     </USlideover>
+
+    <USlideover v-model="companyDetailIsOpen" :transition="false" side="right">
+        <CompanyDetail :company="focusedCompany" />
+    </USlideover>
 </template>
 
 <script lang="ts" setup>
@@ -45,6 +49,8 @@ interface TableCompany {
 }
 
 const filtersMenuIsOpen = ref<boolean>(false)
+const companyDetailIsOpen = ref<boolean>(false)
+const focusedCompany = ref<Company>()
 
 const columns = [
     {
@@ -110,6 +116,7 @@ function mapCompanyToTableCompany(company: Company): TableCompany | null {
 tableCompanies.value = companies?.map(c => mapCompanyToTableCompany(c)).filter(c => c !== null) as TableCompany[]
 
 const selectCompany = (row: TableCompany) => {
-    console.log(row.id)
+    focusedCompany.value = companies?.find(c => c.id === row.id)
+    companyDetailIsOpen.value = true
 }
 </script>
