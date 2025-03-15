@@ -1,5 +1,5 @@
 <template>
-    <UPopover v-model:open="popoverIsOpen">
+    <UPopover v-model:open="popoverIsOpen" class="flex">
         <div class="flex items-center gap-1 cursor-pointer">
             <LanguageIcon filled :font-controlled="false" class="h-5 w-5" />
             <span class="uppercase">{{ locale }}</span>

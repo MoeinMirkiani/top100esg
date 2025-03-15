@@ -4,6 +4,9 @@ export default defineAppConfig({
             th: {
                 padding: 'p-0'
             }
+        },
+        slideover: {
+            height: 'h-max'
         }
     }
 })
