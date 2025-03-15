@@ -3,7 +3,7 @@
         <ul class="md:flex">
             <li v-for="item in navItems" :key="item.to">
                 <NuxtLinkLocale @click="$emit('close')"
-                    :to="{ name: item.to }"
+                    :to="item.to"
                     class="relative block px-6 py-4 leading-8"
                 >
                     {{ t(item.name) }}
@@ -25,7 +25,7 @@ interface NavItem {
 const navItems: NavItem[] = [
     { name: 'Rankings', to: 'index' },
     { name: 'Methodology', to: 'methodology' },
-    { name: 'Contact', to: 'contact' }
+    { name: 'Contact', to: 'mailto:competencecentreforsustainability@unibz.it' }
 ]
 </script>
 
