@@ -9,5 +9,6 @@ export default {
     "Financial": "Finanziell",
     "Environmental": "Umwelt",
     "Social": "Sozial",
-    "Governance": "Governance"
+    "Governance": "Governance",
+    "Ranking criteria": "Ranking-Kriterien"
 }

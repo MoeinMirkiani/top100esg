@@ -1,4 +1,9 @@
 <template>
+    <div @click="filtersMenuIsOpen = true" class="h-14 bg-[#EFEFEF] flex items-center justify-between px-6 md:hidden">
+        <span>{{ t('Ranking criteria') }}</span>
+        <FiltersIcon class="h-8 w-auto" filled :font-controlled="false" />
+    </div>
+
     <UTable :columns :rows="tableCompanies" :sort="sort" @select="selectCompany">
             <template #rank-header>
                 <span></span>
@@ -16,9 +21,16 @@
                 <span></span>
             </template>
         </UTable>
+
+    <USlideover v-model="filtersMenuIsOpen" :transition="false" side="top">
+        <div class="bg-[#EFEFEF] px-4 py-6">
+            <TableFilters @close="filtersMenuIsOpen = false" />
+        </div>
+    </USlideover>
 </template>
 
 <script lang="ts" setup>
+import FiltersIcon from "assets/icons/filters.svg"
 import type { Company } from "~/types"
 
 definePageMeta({
@@ -31,6 +43,8 @@ interface TableCompany {
     value: string
     id: string
 }
+
+const filtersMenuIsOpen = ref<boolean>(false)
 
 const columns = [
     {

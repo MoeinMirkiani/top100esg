@@ -2,9 +2,9 @@
     <div class="space-y-4">
         <span v-if="loading">{{ t('Loading filters...') }}</span>
         <template v-else>
-            <AppSelect :label="t('Section')" :options="sections" v-model="section" />
-            <AppSelect :label="t('Variable')" :options="variables" v-model="variable" />
-            <AppSelect :label="t('Year')" :options="years" v-model="year" />
+            <AppSelect :label="t('Section')" :options="sections" v-model="section" @change="$emit('close')" />
+            <AppSelect :label="t('Variable')" :options="variables" v-model="variable" @change="$emit('close')" />
+            <AppSelect :label="t('Year')" :options="years" v-model="year" @change="$emit('close')" />
         </template>
     </div>
 </template>
