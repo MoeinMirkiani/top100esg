@@ -4,7 +4,8 @@
         <FiltersIcon class="h-8 w-auto" filled :font-controlled="false" />
     </div>
 
-    <UTable :columns :rows="tableCompanies" :sort="sort" @select="selectCompany">
+    <ClientOnly>
+        <UTable :columns :rows="tableCompanies" :sort="sort" @select="selectCompany">
             <template #rank-header>
                 <span></span>
             </template>
@@ -21,6 +22,7 @@
                 <span></span>
             </template>
         </UTable>
+    </ClientOnly>
 
     <USlideover v-model="filtersMenuIsOpen" :transition="false" side="top">
         <div class="bg-[#EFEFEF] px-4 py-6">
@@ -28,8 +30,8 @@
         </div>
     </USlideover>
 
-    <USlideover v-model="companyDetailIsOpen" :transition="false" side="right">
-        <CompanyDetail :company="focusedCompany" />
+    <USlideover v-model="companyDetailIsOpen" side="right">
+        <CompanyDetail @close="companyDetailIsOpen = false" :company="focusedCompany" :section="activeFilter?.section" />
     </USlideover>
 </template>
 
@@ -82,29 +84,26 @@ const { companies } = useCompanyStore()
 const filterStore = useFilterStore()
 const { activeFilter } = storeToRefs(filterStore)
 
-const tableCompanies = ref<TableCompany[]>([])
+const tableCompanies = computed(() => {
+    if (!companies || !activeFilter.value) return []
 
-watch([companies, activeFilter], () => {
-    tableCompanies.value = companies?.map(c => mapCompanyToTableCompany(c)).filter(c => c !== null) as TableCompany[]
+    return companies
+        .map(c => mapCompanyToTableCompany(c))
+        .filter((c): c is TableCompany => c !== null)
 })
 
 function mapCompanyToTableCompany(company: Company): TableCompany | null {
-    // Check if activeFilter is set
-    if (!activeFilter.value) return null;
+    if (!activeFilter.value) return null
 
-    // Find the ranking for the specified year
     const ranking = company.rankings.find(r => r.year === activeFilter.value?.year)
     if (!ranking) return null
 
-    // Find the section within the ranking
     const section = ranking.sections.find(s => s.section === activeFilter.value?.section)
     if (!section) return null
 
-    // Find the variable within the section
     const variable = section.variables.find(v => v.variable === activeFilter.value?.variable)
     if (!variable) return null
 
-    // Return the TableCompany object with the rank, title, value, and id
     return {
         rank: variable.rank,
         title: company.title,
@@ -112,8 +111,6 @@ function mapCompanyToTableCompany(company: Company): TableCompany | null {
         id: company.id
     }
 }
-
-tableCompanies.value = companies?.map(c => mapCompanyToTableCompany(c)).filter(c => c !== null) as TableCompany[]
 
 const selectCompany = (row: TableCompany) => {
     focusedCompany.value = companies?.find(c => c.id === row.id)

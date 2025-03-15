@@ -23,8 +23,4 @@ import EsgLogo from '~/assets/icons/logo.svg'
 import BurgerIcon from '~/assets/icons/burger.svg'
 
 const navIsOpen = ref<boolean>(false)
-
-onBeforeRouteLeave(() => {
-    navIsOpen.value = false
-})
 </script>
