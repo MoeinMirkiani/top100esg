@@ -1,6 +1,5 @@
 <template>
-    <ClientOnly>
-        <UTable :columns :rows="companies" :sort="sort" @select="selectCompany">
+    <UTable :columns :rows="tableCompanies" :sort="sort" @select="selectCompany">
             <template #rank-header>
                 <span></span>
             </template>
@@ -17,11 +16,14 @@
                 <span></span>
             </template>
         </UTable>
-    </ClientOnly>
 </template>
 
 <script lang="ts" setup>
 import type { Company } from "~/types"
+
+definePageMeta({
+    layout: 'filters'
+})
 
 interface TableCompany {
     rank: number | null
@@ -52,25 +54,24 @@ const sort = ref<{ column: string, direction: 'asc' | 'desc' }>({
 
 const { t } = useI18n()
 
-definePageMeta({
-    layout: 'filters'
-})
-
 useHead({
     title: t('Rankings')
 })
 
-const { companies: allCompanies } = useCompanyStore()
+const { companies } = useCompanyStore()
 const filterStore = useFilterStore()
 const { activeFilter } = storeToRefs(filterStore)
 
-const companies = ref<TableCompany[]>([])
+const tableCompanies = ref<TableCompany[]>([])
 
-watch([allCompanies, activeFilter], () => {
-    companies.value = allCompanies?.map(c => mapCompanyToTableCompany(c)).filter(c => c !== null) as TableCompany[]
+watch([companies, activeFilter], () => {
+    tableCompanies.value = companies?.map(c => mapCompanyToTableCompany(c)).filter(c => c !== null) as TableCompany[]
 })
 
 function mapCompanyToTableCompany(company: Company): TableCompany | null {
+    // Check if activeFilter is set
+    if (!activeFilter.value) return null;
+
     // Find the ranking for the specified year
     const ranking = company.rankings.find(r => r.year === activeFilter.value?.year)
     if (!ranking) return null
@@ -85,14 +86,14 @@ function mapCompanyToTableCompany(company: Company): TableCompany | null {
 
     // Return the TableCompany object with the rank, title, value, and id
     return {
-        rank: variable.rank ?? null,
+        rank: variable.rank,
         title: company.title,
         value: variable.value,
         id: company.id
     }
 }
 
-companies.value = allCompanies?.map(c => mapCompanyToTableCompany(c)).filter(c => c !== null) as TableCompany[]
+tableCompanies.value = companies?.map(c => mapCompanyToTableCompany(c)).filter(c => c !== null) as TableCompany[]
 
 const selectCompany = (row: TableCompany) => {
     console.log(row.id)

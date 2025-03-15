@@ -11,7 +11,7 @@ export default {
     list: (first: number, after: string) : AsyncData<any> => {
         return useHttp('graphql', {
             baseURL: baseUrl,
-            key: 'avatar-list',
+            key: 'company-list',
             body: {
                 query: CompaniesQuery,
                 variables: {

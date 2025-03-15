@@ -17,6 +17,7 @@ const { t } = useI18n()
 
 const { data: apiData } = await CompanyService.list(100, '')
 const { companies, filters } = useTransform(apiData.value.data.companies.nodes)
+console.log(companies)
 
 // import companiesDB from '~/db.json'
 // const { data } = companiesDB

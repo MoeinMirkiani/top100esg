@@ -5,12 +5,12 @@ export interface CompanyResponse {
     title: string
     id: string
     companyAcf: {
-        fiscalYearEnd: string
         headquartersLocation: string
         rankings: {
             year: number
             consolidatedFinancialStatements: string
             sustainabilityReport: string
+            fiscalYearEnd: string
             sectionsVariables: {
                 section: string[]
                 variable: string[]
@@ -40,12 +40,12 @@ export interface CompaniesResponse {
 export interface Company {
     title: string
     id: string
-    fiscalYearEnd: string
     headquartersLocation: string
     rankings: {
         year: number
         consolidatedFinancialStatements: string
         sustainabilityReport: string
+        fiscalYearEnd: string
         sections: {
             section: string
             variables: {

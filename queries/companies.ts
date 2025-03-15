@@ -5,12 +5,12 @@ query Companies {
       title
       id
       companyAcf {
-        fiscalYearEnd
         headquartersLocation
         rankings {
           year
           consolidatedFinancialStatements
           sustainabilityReport
+          fiscalYearEnd
           sectionsVariables {
             section
             variable
