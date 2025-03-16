@@ -10,6 +10,7 @@ export default {
     "Environmental": "Ambientale",
     "Social": "Sociale",
     "Governance": "Governance",
+    "Overall ESG": "ESG complessivo",
     "Ranking criteria": "Criteri di classifica",
     "Overview Financial": "Panoramica Finanziaria",
     "Overview Environment": "Panoramica Ambientale",

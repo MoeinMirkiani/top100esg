@@ -1,6 +1,6 @@
 export const CompaniesQuery = `
-query Companies {
-  companies {
+query Companies($first: Int!, $after: String!) {
+  companies(first: $first, after: $after) {
     nodes {
       title
       id
