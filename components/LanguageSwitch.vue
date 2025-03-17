@@ -9,7 +9,7 @@
             <div class="p-3 min-w-[160px]">
                 <ul class="space-y-3">
                     <li v-for="lang in locales" :key="lang.code">
-                        <button @click="handleLocaleChange(lang)">{{ lang.name }}</button>
+                        <span @click="handleLocaleChange(lang)" class="block cursor-pointer">{{ lang.name }}</span>
                     </li>
                 </ul>
             </div>
