@@ -18,6 +18,10 @@
                 <span></span>
             </template>
 
+            <template #title-data="{ row }">
+                <p class="max-w-24 truncate sm:max-w-full">{{ row.title }}</p>
+            </template>
+
             <template #value-header>
                 <span></span>
             </template>
