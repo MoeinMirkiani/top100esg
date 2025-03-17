@@ -117,7 +117,9 @@ function mapCompanyToTableCompany(company: Company): TableCompany | null {
 }
 
 const selectCompany = (row: TableCompany) => {
-    focusedCompany.value = companies?.find(c => c.id === row.id)
-    companyDetailIsOpen.value = true
+    if (activeFilter.value?.section.toLowerCase() !== 'overall esg') {
+        focusedCompany.value = companies?.find(c => c.id === row.id)
+        companyDetailIsOpen.value = true
+    }
 }
 </script>

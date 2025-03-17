@@ -88,7 +88,8 @@ enum Section {
     FINANCIAL = 'financial',
     ENVIRONMENT = 'environment',
     SOCIAL = 'social',
-    GOVERNANCE = 'governance'
+    GOVERNANCE = 'governance',
+    OVERALLESG = 'overall esg'
 }
 
 interface Ranking {
