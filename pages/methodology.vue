@@ -30,8 +30,26 @@ const methodology = ref(data.value.data.page.methodologyAcf.methodology.map((m: 
 
 <style lang="scss" scoped>
 :deep(.content) {
+    @apply break-words;
+
     h1, h2, h3, h4, h5, h6 {
         @apply text-xl mt-12 mb-3 font-bold md:text-3xl md:mt-24 md:mb-6;
+    }
+
+    p, ul, ol {
+        @apply mb-4;
+    }
+
+    ol {
+        @apply list-decimal pl-7;
+
+        ol {
+            @apply list-[lower-alpha] mt-4;
+        }
+    }
+
+    li {
+        @apply mb-2;
     }
 }
 </style>
