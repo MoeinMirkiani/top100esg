@@ -1,0 +1,10 @@
+{
+    "apps": [
+        {
+            "name": "top100esg",
+            "script": ".output/server/index.mjs",
+            "instances": "max",
+            "exec_mode": "cluster"
+        }
+    ]
+}
