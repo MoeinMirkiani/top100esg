@@ -1,6 +1,11 @@
 import type { CompanyResponse, Company, Filters } from '~/types'
 
 export const useTransform = (companyResponses: CompanyResponse[]) : { companies: Company[], filters: Filters } => {
+    // Variables to exclude from filters
+    const excludedVariables = [
+        "Nr. of board members"
+    ]
+
     const filters: Filters = {
         years: [],
         sections: []
@@ -39,14 +44,19 @@ export const useTransform = (companyResponses: CompanyResponse[]) : { companies:
                 const existingSection = filters.sections.find(s => s.section === section.section)
                 if (existingSection) {
                     section.variables.forEach(variable => {
-                        if (!existingSection.variables.includes(variable.variable)) {
+                        // Only add variable to filters if it's not in the excluded list
+                        if (!existingSection.variables.includes(variable.variable) &&
+                            !excludedVariables.includes(variable.variable)) {
                             existingSection.variables.push(variable.variable)
                         }
                     })
                 } else {
                     filters.sections.push({
                         section: section.section,
-                        variables: section.variables.map(v => v.variable)
+                        // Filter out excluded variables when creating new section
+                        variables: section.variables
+                            .filter(v => !excludedVariables.includes(v.variable))
+                            .map(v => v.variable)
                     })
                 }
             })

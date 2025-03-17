@@ -31,7 +31,7 @@ export default {
     "Cost of emissions (k EUR per Ton)": "Costo delle emissioni (k EUR per tonnellata)",
     "Adjusted net income (k EUR)": "Risultato netto rettificato (k EUR)",
     "Nr. of environmental certifications": "Nr. di certificazioni ambientali",
-    "Average employee salary (k EUR)": "Stipendio medio dipendente (k EUR)",
+    "Average employee salary (k EUR)": "Costo medio per dipendente (k EUR)",
     "Nr. of social certifications": "Nr. di certificazioni sociali",
     "Benefit Company": "Benefit Company",
     "% Women on board": "% Donne in consiglio",
