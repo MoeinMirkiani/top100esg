@@ -40,12 +40,8 @@ const methodology = ref(data.value.data.page.methodologyAcf.methodology.map((m: 
         @apply mb-4;
     }
 
-    ol {
-        @apply list-decimal pl-7;
-
-        ol {
-            @apply list-[lower-alpha] mt-4;
-        }
+    ul {
+        @apply list-[lower-alpha] mt-4 pl-10;
     }
 
     li {
