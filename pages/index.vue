@@ -4,8 +4,7 @@
         <FiltersIcon class="h-8 w-auto" filled :font-controlled="false" />
     </div>
 
-    <ClientOnly>
-        <UTable :columns :rows="tableCompanies" :sort="sort" @select="selectCompany">
+    <UTable :columns :rows="tableCompanies" :sort="sort" @select="selectCompany">
             <template #rank-header>
                 <span></span>
             </template>
@@ -26,7 +25,6 @@
                 <span></span>
             </template>
         </UTable>
-    </ClientOnly>
 
     <USlideover v-model="filtersMenuIsOpen" :transition="false" side="top">
         <div class="bg-[#EFEFEF] px-4 py-6">
@@ -41,6 +39,7 @@
 
 <script lang="ts" setup>
 import FiltersIcon from "assets/icons/filters.svg"
+import CompanyService from "~/services/CompanyService"
 import type { Company } from "~/types"
 
 definePageMeta({
@@ -122,4 +121,12 @@ const selectCompany = (row: TableCompany) => {
         companyDetailIsOpen.value = true
     }
 }
+
+const { data } = await CompanyService.list(100, '')
+
+const { setCompanies } = useCompanyStore()
+setCompanies(data.value.companies)
+
+const { setFilters } = useFilterStore()
+setFilters(data.value.filters)
 </script>

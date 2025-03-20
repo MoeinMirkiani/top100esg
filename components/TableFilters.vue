@@ -10,30 +10,23 @@
 </template>
 
 <script setup lang="ts">
-import { useCompanyStore } from "~/stores/useCompanyStore"
-import CompanyService from "~/services/CompanyService"
-
 const { t } = useI18n()
-
-const { data } = await CompanyService.list(100, '')
-const { companies, filters } = useTransform(data.value.data.companies.nodes)
 
 // import companiesDB from '~/db.json'
 // const { data } = companiesDB
 
-const { setCompanies } = useCompanyStore()
-setCompanies(companies)
+const { filters } = useFilterStore()
 
 // Section filter
 const sections = computed<string[]>(() => {
-    return filters.sections.map(s => s.section)
+    return filters?.sections.map(s => s.section) ?? []
 })
 
 const section = ref<string>(sections.value[0])
 
 // Variable filter
 const variables = computed<string[]>(() => {
-    return filters.sections.find(s => s.section === section.value)?.variables ?? []
+    return filters?.sections.find(s => s.section === section.value)?.variables ?? []
 })
 
 const variable = ref<string>(variables.value[0])
@@ -43,7 +36,7 @@ watch(section, () => {
 
 // // Year filter
 const years = computed<string[]>(() => {
-    return filters.years.map(y => y.toString())
+    return filters?.years.map(y => y.toString()) ?? []
 })
 
 const year = ref<string>(years.value[0])
