@@ -19,5 +19,5 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const model = defineModel<string | undefined>()
+const model = defineModel<string>()
 </script>

@@ -9,7 +9,7 @@ export const useFilterStore = defineStore('filter', () => {
     }
 
     const activeFilter = ref<ActiveFilter>()
-    const setFilter = (newFilters: ActiveFilter) => {
+    const setActiveFilter = (newFilters: ActiveFilter) => {
         activeFilter.value = newFilters
     }
 
@@ -17,6 +17,6 @@ export const useFilterStore = defineStore('filter', () => {
         filters,
         setFilters,
         activeFilter,
-        setFilter
+        setActiveFilter
     }
 })

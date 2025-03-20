@@ -127,6 +127,11 @@ const { data } = await CompanyService.list(100, '')
 const { setCompanies } = useCompanyStore()
 setCompanies(data.value.companies)
 
-const { setFilters } = useFilterStore()
+const { setFilters, setActiveFilter } = useFilterStore()
 setFilters(data.value.filters)
+setActiveFilter({
+    section: data.value.filters.sections[0].section,
+    variable: data.value.filters.sections[0].variables[0],
+    year: data.value.filters.years[0]
+})
 </script>
