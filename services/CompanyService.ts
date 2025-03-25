@@ -94,7 +94,7 @@ export default {
     list: (first: number, after: string) : AsyncData<{ companies: Company[], filters: Filters }> => {
         return useHttp('graphql', {
             baseURL: baseUrl,
-            key: 'company-list-fetch',
+            key: 'company-list',
             body: {
                 query: CompaniesQuery,
                 variables: {

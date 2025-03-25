@@ -1,4 +1,5 @@
 export default {
+    "Start": "Inizio",
     "Rankings": "Classifiche",
     "Methodology": "Metodologia",
     "Contact": "Contatto",
@@ -7,7 +8,7 @@ export default {
     "Variable": "Variabile",
     "Year": "Anno",
     "Financial": "Finanziario",
-    "Environmental": "Ambientale",
+    "Environment": "Ambientale",
     "Social": "Sociale",
     "Governance": "Governance",
     "Overall ESG": "ESG complessivo",
@@ -39,5 +40,7 @@ export default {
     "Nr. of board members": "Nr. di membri del consiglio",
     "Nr. of governance certifications": "Nr. di certificazioni di governance",
     "Code of conduct and ethics / 231 Supervisory committee / Whistleblowing policy": "Codice di condotta ed etica / Comitato di vigilanza 231 / Politica di segnalazione",
-    "ESG rating": "Valutazione ESG"
+    "ESG rating": "Valutazione ESG",
+    "A project by": "Un progetto di",
+    "Explore ranking": "Esplora classifica"
 }

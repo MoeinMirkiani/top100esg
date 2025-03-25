@@ -23,7 +23,8 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-    { name: 'Rankings', to: 'index' },
+    { name: 'Start', to: 'index' },
+    { name: 'Rankings', to: 'rankings' },
     { name: 'Methodology', to: 'methodology' },
     { name: 'Contact', to: 'mailto:competencecentreforsustainability@unibz.it' }
 ]

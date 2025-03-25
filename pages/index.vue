@@ -1,137 +1,84 @@
 <template>
-    <div @click="filtersMenuIsOpen = true" class="h-14 bg-[#EFEFEF] flex items-center justify-between px-6 md:hidden">
-        <span>{{ t('Ranking criteria') }}</span>
-        <FiltersIcon class="h-8 w-auto" filled :font-controlled="false" />
-    </div>
+    <UContainer class="py-16 md:py-32">
+        <div v-for="page in data" :key="page.language">
+            <div v-if="page.language === locale">
+                <h1 class="text-3xl font-bold uppercase max-w-3xl mb-10 md:text-5xl">{{ page.pageContent.title }}</h1>
 
-    <UTable :columns :rows="tableCompanies" :sort="sort" @select="selectCompany">
-            <template #rank-header>
-                <span></span>
-            </template>
+                <div class="mb-16 page-description max-w-4xl md:mb-32" v-html="page.pageContent.description" />
 
-            <template #rank-data="{ row, index }">
-                <span>{{ row.rank ?? (index + 1) }}</span>
-            </template>
+                <p class="mb-6">{{ t('A project by') }}</p>
+                <img :src="ccsLogo" alt="CCS Logo" class="mb-16 w-[520px] max-w-full md:mb-32" />
 
-            <template #title-header>
-                <span></span>
-            </template>
+                <h4 class="text-3xl font-medium mb-10">{{ page.pageContent.metrics.title }}</h4>
+                <div class="flex flex-col gap-10 md:flex-row">
+                    <div v-for="(item, i) in page.pageContent.metrics.metricsItems" :key="i" class="flex-1">
+                        <EnvironmentIcon filled :font-controlled="false" class="size-10 mb-2.5" v-if="i === 0" />
+                        <SocialIcon filled :font-controlled="false" class="size-10 mb-2.5" v-if="i === 1" />
+                        <GovernanceIcon filled :font-controlled="false" class="size-10 mb-2.5" v-if="i === 2" />
+                        <h5 class="font-bold mb-2">{{ item.metric }}</h5>
+                        <p>{{ item.description }}</p>
+                    </div>
+                </div>
 
-            <template #title-data="{ row }">
-                <p class="max-w-24 truncate sm:max-w-full">{{ row.title }}</p>
-            </template>
+                <div class="my-16 p-10 bg-[#1C1B1F] rounded-lg text-center md:my-32 md:py-16 md:px-40">
+                    <h4 class="text-3xl font-semibold text-white mb-6">{{ page.pageContent.bannerTitle }}</h4>
+                    <p class="text-white mb-10">{{ page.pageContent.bannerDescription }}</p>
+                    <NuxtLinkLocale :to="{ name: 'rankings' }" class="flex items-center justify-center gap-2 mx-auto px-6 py-3.5 bg-white rounded-lg max-w-max">
+                        <span>{{ t('Explore ranking') }}</span>
+                        <ArrowRightIcon filled :font-controlled="false" class="h-6 w-6" />
+                    </NuxtLinkLocale>
+                </div>
 
-            <template #value-header>
-                <span></span>
-            </template>
-        </UTable>
+                <h5 class="text-2xl font-medium mb-2">{{ page.pageContent.reportTitle }}</h5>
+                <div class="mb-16 report-description md:mb-32" v-html="page.pageContent.reportDescription" />
 
-    <USlideover v-model="filtersMenuIsOpen" :transition="false" side="top">
-        <div class="bg-[#EFEFEF] px-4 py-6">
-            <TableFilters @close="filtersMenuIsOpen = false" />
+                <h6 class="text-2xl font-medium mb-2">{{ page.pageContent.team.title }}</h6>
+                <p class="mb-10">{{ page.pageContent.team.description }}</p>
+                <div class="flex flex-col gap-10 md:flex-row">
+                    <div v-for="(item, i) in page.pageContent.team.members" :key="i" class="flex-1">
+                        <h6 class="text-xl font-medium mb-2">{{ item.fullName }}</h6>
+                        <p>{{ item.affiliation }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </USlideover>
-
-    <USlideover v-model="companyDetailIsOpen" side="right">
-        <CompanyDetail @close="companyDetailIsOpen = false" :company="focusedCompany" :section="activeFilter?.section" />
-    </USlideover>
+    </UContainer>
 </template>
 
-<script lang="ts" setup>
-import FiltersIcon from "assets/icons/filters.svg"
-import CompanyService from "~/services/CompanyService"
-import type { Company } from "~/types"
+<script setup lang="ts">
+import ccsLogo from '~/assets/images/ccs-logo.png'
+import ArrowRightIcon from '~/assets/icons/arrow-right.svg'
+import EnvironmentIcon from '~/assets/icons/environment.svg'
+import SocialIcon from '~/assets/icons/social.svg'
+import GovernanceIcon from '~/assets/icons/governance.svg'
+import HomeService from '~/services/HomeService'
 
-definePageMeta({
-    layout: 'filters'
-})
 
-interface TableCompany {
-    rank: number | null
-    title: string
-    value: string
-    id: string
-}
-
-const filtersMenuIsOpen = ref<boolean>(false)
-const companyDetailIsOpen = ref<boolean>(false)
-const focusedCompany = ref<Company>()
-
-const columns = [
-    {
-        key: 'rank',
-        label: 'Rank',
-    },
-    {
-        key: 'title',
-        label: 'Title',
-    },
-    {
-        key: 'value',
-        label: 'Value',
-    }
-]
-
-const sort = ref<{ column: string, direction: 'asc' | 'desc' }>({
-    column: 'rank',
-    direction: 'asc'
-})
-
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 useHead({
-    title: t('Rankings')
+    title: t('Start')
 })
 
-const { companies } = useCompanyStore()
-const filterStore = useFilterStore()
-const { activeFilter } = storeToRefs(filterStore)
+const { data } = await HomeService.get()
 
-const tableCompanies = computed(() => {
-    if (!companies || !activeFilter.value) return []
-
-    return companies
-        .map(c => mapCompanyToTableCompany(c))
-        .filter((c): c is TableCompany => c !== null)
-})
-
-function mapCompanyToTableCompany(company: Company): TableCompany | null {
-    if (!activeFilter.value) return null
-
-    const ranking = company.rankings.find(r => r.year === activeFilter.value?.year)
-    if (!ranking) return null
-
-    const section = ranking.sections.find(s => s.section === activeFilter.value?.section)
-    if (!section) return null
-
-    const variable = section.variables.find(v => v.variable === activeFilter.value?.variable)
-    if (!variable) return null
-
-    return {
-        rank: variable.rank,
-        title: company.title,
-        value: variable.value,
-        id: company.id
-    }
-}
-
-const selectCompany = (row: TableCompany) => {
-    if (activeFilter.value?.section.toLowerCase() !== 'overall esg') {
-        focusedCompany.value = companies?.find(c => c.id === row.id)
-        companyDetailIsOpen.value = true
-    }
-}
-
-const { data } = await CompanyService.list(100, '')
-
-const { setCompanies } = useCompanyStore()
-setCompanies(data.value.companies)
-
-const { setFilters, setActiveFilter } = useFilterStore()
-setFilters(data.value.filters)
-setActiveFilter({
-    section: data.value.filters.sections[0].section,
-    variable: data.value.filters.sections[0].variables[0],
-    year: data.value.filters.years[0]
+const page = computed(() => {
+    return data.value.find((p: any) => p.language === locale.value)
 })
 </script>
+
+<style lang="scss" scoped>
+:deep() {
+    .page-description {
+        p {
+            @apply mb-2;
+        }
+    }
+
+    .report-description {
+        a {
+            @apply underline;
+        }
+    }
+}
+</style>
