@@ -4,6 +4,7 @@
     <NuxtLayout>
         <slot />
     </NuxtLayout>
+    <AppFooter />
 </template>
 
 <script setup lang="ts">

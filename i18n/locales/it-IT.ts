@@ -42,5 +42,6 @@ export default {
     "Code of conduct and ethics / 231 Supervisory committee / Whistleblowing policy": "Codice di condotta ed etica / Comitato di vigilanza 231 / Politica di segnalazione",
     "ESG rating": "Valutazione ESG",
     "A project by": "Un progetto di",
-    "Explore ranking": "Esplora classifica"
+    "Explore ranking": "Esplora classifica",
+    "Privacy": "Privacy"
 }
