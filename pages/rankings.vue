@@ -83,15 +83,15 @@ useHead({
     title: t('Rankings')
 })
 
-const { companies } = useCompanyStore()
+const companyStore = useCompanyStore()
+const { companies } = storeToRefs(companyStore)
 const filterStore = useFilterStore()
 const { activeFilter } = storeToRefs(filterStore)
 
 const tableCompanies = computed(() => {
     if (!companies || !activeFilter.value) return []
 
-    return companies
-        .map(c => mapCompanyToTableCompany(c))
+    return companies.value?.map(c => mapCompanyToTableCompany(c))
         .filter((c): c is TableCompany => c !== null)
 })
 
@@ -117,7 +117,7 @@ function mapCompanyToTableCompany(company: Company): TableCompany | null {
 
 const selectCompany = (row: TableCompany) => {
     if (activeFilter.value?.section.toLowerCase() !== 'overall esg') {
-        focusedCompany.value = companies?.find(c => c.id === row.id)
+        focusedCompany.value = companies.value?.find(c => c.id === row.id)
         companyDetailIsOpen.value = true
     }
 }

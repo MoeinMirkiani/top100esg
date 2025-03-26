@@ -19,31 +19,37 @@ const loading = computed<boolean>(() => {
     return sections.value.length === 0 || variables.value.length === 0 || years.value.length === 0
 })
 
-const { filters, activeFilter, setActiveFilter } = useFilterStore()
+const filterStore = useFilterStore()
+const { filters, activeFilter } = storeToRefs(filterStore)
+const { setActiveFilter } = useFilterStore()
 
 // Section filter
 const sections = computed<string[]>(() => {
-    return filters?.sections.map(s => s.section) ?? []
+    return filters.value?.sections.map(s => s.section) ?? []
 })
 
-const section = ref<string>(activeFilter?.section ?? '')
+const section = computed<string>(() => {
+    return activeFilter.value?.section ?? ''
+})
 
 // Variable filter
 const variables = computed<string[]>(() => {
-    return filters?.sections.find(s => s.section === section.value)?.variables ?? []
+    return filters.value?.sections.find(s => s.section === section.value)?.variables ?? []
 })
 
-const variable = ref<string>(activeFilter?.variable ?? '')
+const variable = ref<string>(activeFilter.value?.variable ?? '')
 watch(section, () => {
     variable.value = variables.value[0] ?? ''
 })
 
 // // Year filter
 const years = computed<string[]>(() => {
-    return filters?.years.map(y => y.toString()) ?? []
+    return filters.value?.years.map(y => y.toString()) ?? []
 })
 
-const year = ref<string>(activeFilter?.year.toString() ?? '')
+const year = computed<string>(() => {
+    return activeFilter.value?.year.toString() ?? ''
+})
 
 watch([section, variable, year], () => {
     setActiveFilter({
