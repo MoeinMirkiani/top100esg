@@ -61,10 +61,6 @@ useHead({
 })
 
 const { data } = await HomeService.get()
-
-const page = computed(() => {
-    return data.value.find((p: any) => p.language === locale.value)
-})
 </script>
 
 <style lang="scss" scoped>
