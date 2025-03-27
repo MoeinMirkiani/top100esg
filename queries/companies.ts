@@ -1,6 +1,6 @@
 export const CompaniesQuery = `
 query Companies($first: Int!, $after: String!) {
-  companies(first: $first, after: $after) {
+  companies(first: $first, after: $after, where: {orderby: {field: TITLE, order: ASC}}) {
     nodes {
       title
       id
