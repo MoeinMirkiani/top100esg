@@ -7,7 +7,9 @@
                 <div class="mb-16 page-description max-w-4xl md:mb-32" v-html="page.pageContent.description" />
 
                 <p class="mb-6">{{ t('A project by') }}</p>
-                <img :src="ccsLogo" alt="CCS Logo" class="mb-16 w-[520px] max-w-full md:mb-32" />
+                <NuxtLink external target="_blank" :href="`https://www.unibz.it/${locale}/home/research/competence-centre-economic-ecological-social-sustainability/`">
+                    <img :src="ccsLogo" alt="CCS Logo" class="mb-16 w-[520px] max-w-full md:mb-32" />
+                </NuxtLink>
 
                 <h4 class="text-3xl font-medium mb-10">{{ page.pageContent.metrics.title }}</h4>
                 <div class="flex flex-col gap-10 md:flex-row">
