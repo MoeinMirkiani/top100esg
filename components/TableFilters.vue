@@ -28,16 +28,14 @@ const sections = computed<string[]>(() => {
     return filters.value?.sections.map(s => s.section) ?? []
 })
 
-const section = computed<string>(() => {
-    return activeFilter.value?.section ?? ''
-})
+const section = ref<string>('')
 
 // Variable filter
 const variables = computed<string[]>(() => {
     return filters.value?.sections.find(s => s.section === section.value)?.variables ?? []
 })
 
-const variable = ref<string>(activeFilter.value?.variable ?? '')
+const variable = ref<string>('')
 watch(section, () => {
     variable.value = variables.value[0] ?? ''
 })
@@ -47,8 +45,12 @@ const years = computed<string[]>(() => {
     return filters.value?.years.map(y => y.toString()) ?? []
 })
 
-const year = computed<string>(() => {
-    return activeFilter.value?.year.toString() ?? ''
+const year = ref<string>('')
+
+onMounted(() => {
+    section.value = activeFilter.value?.section ?? ''
+    variable.value = activeFilter.value?.variable ?? ''
+    year.value = activeFilter.value?.year.toString() ?? ''
 })
 
 watch([section, variable, year], () => {
