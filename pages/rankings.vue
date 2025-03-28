@@ -1,5 +1,5 @@
 <template>
-    <div @click="filtersMenuIsOpen = true" class="h-14 bg-[#EFEFEF] flex items-center justify-between px-6 md:hidden">
+    <div @click="filtersMenuIsOpen = true" class="z-10 sticky top-16 h-14 bg-[#EFEFEF] flex items-center justify-between border-b border-gray-200 px-6 md:hidden">
         <span>{{ t('Ranking criteria') }}</span>
         <FiltersIcon class="h-8 w-auto" filled :font-controlled="false" />
     </div>

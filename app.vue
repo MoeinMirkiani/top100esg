@@ -1,6 +1,6 @@
 <template>
     <NuxtLoadingIndicator :height="2" :color="false" class="bg-blue-600" />
-    <AppHeader />
+    <AppHeader class="sticky top-0" />
     <NuxtLayout>
         <slot />
     </NuxtLayout>

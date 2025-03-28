@@ -1,5 +1,5 @@
 <template>
-    <header class="h-16 px-6 flex items-center justify-between gap-4 border-b-2 border-black">
+    <header class="z-20 h-16 px-6 flex items-center justify-between gap-4 border-b-2 border-black bg-white">
         <div class="flex items-center justify-between flex-auto">
             <NuxtLinkLocale :to="{ name: 'index' }">
                 <EsgLogo class="h-8 w-auto" filled :font-controlled="false" />
