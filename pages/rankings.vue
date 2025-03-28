@@ -18,7 +18,7 @@
             </template>
 
             <template #title-data="{ row }">
-                <p class="max-w-24 truncate sm:max-w-full">{{ row.title }}</p>
+                <p class="w-full sm:max-w-full">{{ row.title }}</p>
             </template>
 
             <template #value-header>
@@ -60,15 +60,15 @@ const focusedCompany = ref<Company>()
 const columns = [
     {
         key: 'rank',
-        label: 'Rank',
+        label: 'Rank'
     },
     {
         key: 'title',
-        label: 'Title',
+        label: 'Title'
     },
     {
         key: 'value',
-        label: 'Value',
+        label: 'Value'
     }
 ]
 
