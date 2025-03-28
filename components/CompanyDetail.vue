@@ -7,68 +7,70 @@
 
         <div class="py-6">
             <p class="uppercase text-xs text-white/50">{{ t('Company name') }}</p>
-            <p class="uppercase text-[28px]">{{ props.company?.title }}</p>
+            <p class="uppercase text-3xl">{{ props.company?.title }}</p>
+        </div>
 
-            <div class="mt-5 mb-3 flex items-center justify-start gap-2">
+        <div class="border-b border-white"></div>
+
+        <div v-for="ranking in rankings">
+            <div v-if="ranking.section.toLowerCase() === props.section?.toLowerCase()" class="divide-y divide-white">
+                <div v-for="variable in ranking.variables" class="py-4">
+                    <p class="mb-2 leading-5">{{ t(variable.name) }}</p>
+                    <div class="grid grid-cols-4 gap-2 py-0.5">
+                        <span class="col-span-1 uppercase text-xs text-white/50">{{ t('Year') }}</span>
+                        <span class="col-span-2 uppercase text-xs text-white/50">{{ t('Value') }}</span>
+                        <span class="col-span-1 uppercase text-xs text-white/50">{{ t('Ranking') }}</span>
+                    </div>
+                    <div v-for="item in variable.years" class="grid grid-cols-4 gap-2 py-0.5">
+                        <span class="col-span-1 uppercase text-xs text-white">{{ item.year }}</span>
+                        <span class="col-span-2 uppercase text-xs text-white">{{ item.value }}</span>
+                        <span class="col-span-1 uppercase text-xs text-white">{{ item.rank }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-b border-white"></div>
+
+        <div class="py-6">
+            <div class="mb-3 py-1 flex items-center justify-start gap-2">
                 <LocationIcon filled :font-controlled="false" class="size-4" />
                 <p class="text-xs">{{ t('Company headquarters') }} {{ props.company?.headquartersLocation ?? ''}}</p>
             </div>
 
-            <div class="mb-3">
-                <div class="flex items-center justify-start gap-2 mb-1">
+            <div class="mb-3 py-1">
+                <div class="py-1 flex items-center justify-start gap-2 mb-1">
                     <BillIcon filled :font-controlled="false" class="size-4" />
                     <p class="text-xs">{{ t('Consolidated financial statements') }}</p>
                 </div>
 
-                <div v-for="cfs in rankings[0].consolidatedFinancialStatements" class="flex items-center justify-start gap-2 pl-6">
+                <div v-for="cfs in rankings[0].consolidatedFinancialStatements" class="py-0.5 flex items-center justify-start gap-2 pl-6">
                     <span class="text-xs">{{ cfs.year }}</span>
                     <span class="text-xs">{{ cfs.value }}</span>
                 </div>
             </div>
 
-            <div class="mb-3">
-                <div class="flex items-center justify-start gap-2 mb-1">
+            <div class="mb-3 py-1">
+                <div class="flex items-center justify-start gap-2 mb-1 py-0.5">
                     <BillIcon filled :font-controlled="false" class="size-4" />
                     <p class="text-xs">{{ t('Sustainability report') }}</p>
                 </div>
 
-                <div v-for="cfs in rankings[0].sustainabilityReport" class="flex items-center justify-start gap-2 pl-6">
+                <div v-for="cfs in rankings[0].sustainabilityReport" class="py-0.5 flex items-center justify-start gap-2 pl-6">
                     <span class="text-xs">{{ cfs.year }}</span>
                     <span class="text-xs">{{ cfs.value }}</span>
                 </div>
             </div>
 
             <div>
-                <div class="flex items-center justify-start gap-2 mb-1">
+                <div class="py-1 flex items-center justify-start gap-2 mb-1">
                     <CalendarIcon filled :font-controlled="false" class="size-4" />
                     <p class="text-xs">{{ t('Fiscal year end') }}</p>
                 </div>
 
-                <div v-for="cfs in rankings[0].fiscalYearEnd" class="flex items-center justify-start gap-2 pl-6">
+                <div v-for="cfs in rankings[0].fiscalYearEnd" class="py-0.5 flex items-center justify-start gap-2 pl-6">
                     <span v-if="cfs.value" class="text-xs">{{ cfs.year }}</span>
                     <span v-if="cfs.value" class="text-xs">{{ cfs.value ?? '' }}</span>
-                </div>
-            </div>
-
-
-        </div>
-
-        <div class="h-0.5 bg-white"></div>
-
-        <div v-for="ranking in rankings">
-            <div v-if="ranking.section.toLowerCase() === props.section?.toLowerCase()">
-                <div v-for="variable in ranking.variables" class="py-4 border-b border-white">
-                    <p>{{ t(variable.name) }}</p>
-                    <div class="grid grid-cols-4 gap-2">
-                        <span class="col-span-1 uppercase text-xs text-white/50">{{ t('Year') }}</span>
-                        <span class="col-span-2 uppercase text-xs text-white/50">{{ t('Value') }}</span>
-                        <span class="col-span-1 uppercase text-xs text-white/50">{{ t('Ranking') }}</span>
-                    </div>
-                    <div v-for="item in variable.years" class="grid grid-cols-4 gap-2">
-                        <span class="col-span-1 uppercase text-xs text-white">{{ item.year }}</span>
-                        <span class="col-span-2 uppercase text-xs text-white">{{ item.value }}</span>
-                        <span class="col-span-1 uppercase text-xs text-white">{{ item.rank }}</span>
-                    </div>
                 </div>
             </div>
         </div>
