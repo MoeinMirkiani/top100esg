@@ -24,6 +24,10 @@
             <template #value-header>
                 <span></span>
             </template>
+
+            <template #value-data="{ row }">
+                <span>{{ row.value ?? 0 }}</span>
+            </template>
         </UTable>
 
     <USlideover v-model="filtersMenuIsOpen" :transition="false" side="top">
