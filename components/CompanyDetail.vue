@@ -33,12 +33,12 @@
         <div class="border-b border-white"></div>
 
         <div class="py-6">
-            <div class="mb-3 py-1 flex items-center justify-start gap-2">
+            <div class="mb-3 py-1 flex items-center justify-start gap-2" v-if="props.section?.toLowerCase() === 'financial'">
                 <LocationIcon filled :font-controlled="false" class="size-4" />
                 <p class="text-xs">{{ t('Company headquarters') }} {{ props.company?.headquartersLocation ?? ''}}</p>
             </div>
 
-            <div class="mb-3 py-1">
+            <div class="mb-3 py-1" v-if="props.section?.toLowerCase() === 'financial'">
                 <div class="py-1 flex items-center justify-start gap-2 mb-1">
                     <BillIcon filled :font-controlled="false" class="size-4" />
                     <p class="text-xs">{{ t('Consolidated financial statements') }}</p>
@@ -50,7 +50,7 @@
                 </div>
             </div>
 
-            <div class="mb-3 py-1">
+            <div class="mb-3 py-1" v-if="props.section?.toLowerCase() === 'environment'">
                 <div class="flex items-center justify-start gap-2 mb-1 py-0.5">
                     <BillIcon filled :font-controlled="false" class="size-4" />
                     <p class="text-xs">{{ t('Sustainability report') }}</p>
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            <div>
+            <div v-if="props.section?.toLowerCase() === 'financial'">
                 <div class="py-1 flex items-center justify-start gap-2 mb-1">
                     <CalendarIcon filled :font-controlled="false" class="size-4" />
                     <p class="text-xs">{{ t('Fiscal year end') }}</p>
